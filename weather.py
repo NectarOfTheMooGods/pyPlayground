@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+#
 # weather.py - prints weather from Poway
 
 import sys, os
@@ -50,7 +52,8 @@ def main(argv):
     print("Current weather for %s:" %(weatherData['name']))
     curTemp = KelvinToFahrenheit(weatherData['main']['temp'])
     humidity = weatherData['main']['humidity']
-    desc = weatherData['weather'][0]['main'] + " - " + weatherData['weather'][0]['description']
+    #desc = weatherData['weather'][0]['main'] + " - " + weatherData['weather'][0]['description']
+    desc = weatherData['weather'][0]['description']
     print("%.1f%s %s%s humidity  %s" %(curTemp, degreeSign, humidity, percentSign, desc))
     
 
@@ -68,7 +71,8 @@ def main(argv):
 
     #zip allows to iterate though 2 lists in tandem
     for date, w in zip(dateStr, weatherData['list']):
-        desc = w['weather'][0]['main'] + " - " + w['weather'][0]['description']
+        #desc = w['weather'][0]['main'] + " - " + w['weather'][0]['description']
+        desc = w['weather'][0]['description']
         hi = KelvinToFahrenheit(w['temp']['max'])
         low = KelvinToFahrenheit(w['temp']['min'])
         date = date.ljust(10)
