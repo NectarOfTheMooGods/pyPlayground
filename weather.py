@@ -1,18 +1,15 @@
 # weather.py - prints weather from Poway
 
-import ptvsd
 import sys, os
 import json, requests
 import pprint
 import calendar
 import datetime
 
+#local modules
+import debugger
 
-def attachDebugger():
-    print("waiting for debugger...")
-    ptvsd.enable_attach(secret='JTG')
-    ptvsd.wait_for_attach()
-    print("debugger attached")
+
 
 def RequestWeatherData(url):
     try:
@@ -34,10 +31,11 @@ def KelvinToFahrenheit(k):
 
 
 def main(argv):
-    #attachDebugger()
+    #debugger.attachDebugger()
 
     numDays = 7
-    degreeSign = '\u00b0' 
+    degreeSign = '\u00b0'
+    percentSign = '\u0025'
 
     site = 'http://api.openweathermap.org/data/2.5/'
     current = 'weather?'
@@ -53,7 +51,7 @@ def main(argv):
     curTemp = KelvinToFahrenheit(weatherData['main']['temp'])
     humidity = weatherData['main']['humidity']
     desc = weatherData['weather'][0]['main'] + " - " + weatherData['weather'][0]['description']
-    print("%.1f%s humidity:%s  %s" %(curTemp, degreeSign, humidity, desc))
+    print("%.1f%s %s%s humidity  %s" %(curTemp, degreeSign, humidity, percentSign, desc))
     
 
     url = site + forecast + city + length + appID
@@ -78,4 +76,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    try:
+        main(sys.argv)
+    except KeyboardInterrupt:
+        print("main KeyboardInterrupt")
+        pass
